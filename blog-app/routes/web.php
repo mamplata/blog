@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [BlogPostController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/blog', [BlogPostController::class, 'store'])->middleware(['auth', 'verified'])->name('blog');
+Route::post('/blog', [BlogPostController::class, 'store'])->middleware(['auth', 'verified'])->name('blog');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
