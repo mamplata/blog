@@ -1,5 +1,5 @@
 <!-- resources/views/blog/create.blade.php -->
-<form {{ route('blog') }} method="POST">
+<form action="{{ url('/blog') }}">
     @csrf
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
