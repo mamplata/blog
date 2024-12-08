@@ -2,41 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BlogPost;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-
+    /**
+     * Show the login page.
+     */
     public function index()
     {
-        return view('login');
+        // Breeze already has a login view; you can customize it if needed.
+        return view('auth.login');
     }
 
+    /**
+     * Handle login request.
+     */
     public function login(Request $request)
-
     {
         // Validate the incoming request data
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8',
         ]);
 
-        $user = User::where('email',  $request->email)->where('password',  $request->password)->first();
+        // Attempt to authenticate the user
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // Prevent session fixation attacks
 
-        if ($user) {
-            session(['logged_in' => true, 'user_id' => $user->id, 'name' => $user->name]);
-            $userName = session('name');
-            return redirect()->route('blog')->with('success', 'Welcome, ' . $userName);
-        } else {
-            return redirect()->route('login')->with('error', 'Invalid email or password.');
+            return redirect()->intended('/dashboard')->with('success', 'Welcome, ' . Auth::user()->name);
         }
+
+        // If authentication fails, redirect back with an error
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
+    /**
+     * Handle logout request.
+     */
     public function logout(Request $request)
     {
-        session()->forget(['logged_in', 'user_id', 'name']);
-        return redirect()->route('login')->with('error', 'Logout successfully.');
+        Auth::logout();
+
+        // Invalidate and regenerate the session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->with('success', 'Logout successful.');
     }
 }
