@@ -4,16 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BlogPost extends Model
+class News extends Model
 {
     //
 
     protected $primaryKey = "id";
 
     protected $fillable = [
-        'title',
+        'headline',
         'content',
+        'author',
+        'date_published',
         'user_id',
+    ];
+
+    protected $casts = [
+        'date_published' => 'datetime', // Casts the field to a Carbon instance
     ];
 
     public function user()
