@@ -31,7 +31,7 @@ class BlogPostController extends Controller
             BlogPost::create([
                 'title' => $request->title,
                 'content' => $request->content,
-                'user_id' => auth()->id(), // Get the authenticated user's ID
+                'user_id' => auth()->id(),
             ]);
 
             // Redirect to the dashboard with a success message
