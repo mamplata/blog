@@ -19,6 +19,50 @@ class NewsController extends Controller
         ]);
     }
 
+    public function home(Request $request)
+    {
+        // Check if it is an AJAX request for search
+        if ($request->ajax()) {
+            $search = urldecode($request->input('search')); // Decode the search string
+
+            // Fetch filtered news based on the search query
+            $news = News::with('user')
+                ->orderBy('date_published', 'desc')
+                ->get();
+
+            // Append the formatted date_published to each news item
+            $news->each(function ($item) {
+                $item->date_published_formatted = $item->date_published->format('F j, Y');
+            });
+
+            // Filter the news items based on the search query, including the formatted date
+            $filteredNews = $news->filter(function ($item) use ($search) {
+                // Search within headline, author, or formatted date
+                return stripos($item->headline, $search) !== false ||
+                    stripos($item->author, $search) !== false ||
+                    stripos($item->date_published_formatted, $search) !== false;
+            });
+
+            // Ensure the filtered results are always an array, even if only one item matches
+            $filteredNews = $filteredNews->values();
+
+            // Return JSON response for AJAX
+            return response()->json($filteredNews);
+        }
+
+        // Default non-AJAX request handling
+        $news = News::orderBy('date_published', 'desc')->with('user')->get();
+
+        // Append the formatted date_published to each news item
+        $news->each(function ($item) {
+            $item->date_published_formatted = $item->date_published->format('F j, Y');
+        });
+
+        return view('welcome', ['news' => $news]);
+    }
+
+
+
     public function store(Request $request)
     {
         // Validate the incoming request

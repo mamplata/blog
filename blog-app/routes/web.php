@@ -4,9 +4,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [NewsController::class, 'home'])->name('home');
 
 // News routes
 Route::middleware(['auth', 'verified'])->group(function () {

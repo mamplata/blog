@@ -35,5 +35,7 @@
         @enderror
     </div>
 
-    <button type="submit" class="btn btn-primary">Save News</button>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Save News
+    </button>
 </form>

@@ -26,7 +26,7 @@ class NewsSeeder extends Seeder
             News::create([
                 'headline' => $headline,
                 'content' => str_repeat('This is the content of the news post titled "' . $headline . '". ', 6),
-                'author' => 'Admin User',
+                'author' => 'John Loui Amular',
                 'date_published' => now()->subDays($index), // Use Carbon instance for date
                 'user_id' => 1,
             ]);

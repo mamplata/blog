@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('News App') }}
+            {{ __('Home') }}
         </h2>
     </x-slot>
 
@@ -27,7 +27,7 @@
                     <!-- Button to open the Create News modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#createNewsModal">
-                        Create News Post
+                        <i class="fas fa-plus-circle"></i> Create News Post
                     </button>
                 </div>
 
@@ -54,8 +54,12 @@
 
                                 <!-- Author and Date Section -->
                                 <small class="text-muted">
-                                    <span class="d-block">By: {{ $item->author }}</span>
-                                    <span>Published on: {{ $item->date_published->format('F j, Y') }}</span>
+                                    <div class="text-gray-500 text-sm">
+                                        <p><i class="fas fa-user"></i> By: {{ $item->author }}</p>
+                                        <p><i class="fas fa-calendar-alt"></i> Published:
+                                            {{ $item->date_published_formatted }}
+                                        </p>
+                                    </div>
                                 </small>
 
                                 <!-- Action Buttons -->
@@ -63,13 +67,13 @@
                                     <!-- Edit Button -->
                                     <button type="button" class="btn btn-warning btn-sm w-100 me-4"
                                         data-bs-toggle="modal" data-bs-target="#editNewsModal-{{ $item->id }}">
-                                        Edit
+                                        <i class="fas fa-edit"></i> Edit
                                     </button>
 
                                     <!-- Delete Button -->
                                     <button type="button" class="btn btn-danger btn-sm w-100" data-bs-toggle="modal"
                                         data-bs-target="#deleteNewsModal-{{ $item->id }}">
-                                        Delete
+                                        <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
                             </div>
@@ -110,7 +114,9 @@
                                                     class="form-control"
                                                     value="{{ $item->date_published->format('Y-m-d') }}" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Save Changes
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
@@ -135,7 +141,9 @@
                                         <form method="POST" action="{{ route('news.destroy', $item->id) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i> Yes, Delete
+                                            </button>
                                         </form>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                             Cancel

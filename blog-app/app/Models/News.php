@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
@@ -25,5 +26,10 @@ class News extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getDatePublishedFormattedAttribute()
+    {
+        return Carbon::parse($this->date_published)->format('F j, Y'); // Example: December 9, 2024
     }
 }
