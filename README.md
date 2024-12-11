@@ -1,4 +1,4 @@
 Groud Members:
 Amular, John Loui C.
-Boncales, Adrian James P.
+Barnedo, Darrel
 Mamplata, Kyle Deejay C.
